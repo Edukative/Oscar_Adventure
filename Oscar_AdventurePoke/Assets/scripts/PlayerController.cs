@@ -6,10 +6,16 @@ public class PlayerController : MonoBehaviour
 {
     public float speed; //speed variable
     Rigidbody2D rubyRB2D; // teh player's Rigidbody
+
+    public int maxHealth = 5;
+    int currentHealth;
+
+
     // Start is called before the first frame update
     void Start()
     {
         rubyRB2D = GetComponent<Rigidbody2D>(); //Get teh player's rigidbody
+        currentHealth = maxHealth;// the current health is the max health available to the player
     }
 
     // Update is called once per frame
@@ -28,5 +34,11 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log(horizontal); //see what values are u sending when pressing the keys
         Debug.Log(vertical); //see what values are u sending when pressing the keys
+    }
+
+    public void CheangeHealth (int amount)
+    {
+        currentHealth = Mathf.Clamp(currentHealth * amount, 0, maxHealth); //limits the number between 0 and max health
+        Debug.Log(currentHealth + "/" + maxHealth); //is to see the health
     }
 }
