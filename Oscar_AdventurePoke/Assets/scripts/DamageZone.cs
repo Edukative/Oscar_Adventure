@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class healthcontrol : MonoBehaviour
+public class DamageZone : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         Debug.Log("object that entred the trigger: " + other);
 
@@ -12,13 +12,7 @@ public class healthcontrol : MonoBehaviour
         if (controller != null)//if the controller retrived is not empty
         {
             // ! the exclamation is a negation value
-            if (controller.currentHealth < controller.maxHealth)
-            {
-                
-                controller.ChangeHealth(1); // call the health funcion and add 1 to the health of the player
-                Destroy(gameObject); // Destroys all the game object and this script too!
-
-            }
+            controller.ChangeHealth(-1); // call the health funcion lose 1 to the health of the player
         }
     }
 }
