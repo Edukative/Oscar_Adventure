@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+ 
 public class PlayerController : MonoBehaviour
 {
     public float speed; //speed variable
@@ -14,11 +14,15 @@ public class PlayerController : MonoBehaviour
     public float timeInvincible = 2.0f;
     bool isInvincible;
     float InvincibleTimer;
-
-
+    // Animator values
+    Animator playerAnim;
+    Vector2 lookDirection = new Vector2(1, 0);
     // Start is called before teh first frame update
     void Start()
     {
+        anim = GetComponent<Animator>();
+        
+
         rubyRB2D = GetComponent<Rigidbody2D>(); //Get teh player's rigidbody
         currentHealth = maxHealth;// teh current health is teh max health available to the player
 
@@ -31,10 +35,21 @@ public class PlayerController : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal"); //get teh horizontal input
         float vertical = Input.GetAxis("Vertical"); //get teh vertical input
 
-        Vector2 position = transform.position; // makes a vector based on current position
+        Vector2 move = new Vector2(horizontal, vertical);
 
-        position.x = position.x + speed * horizontal * Time.deltaTime; //the position is equal to teh same position but a little bit bigger
-        position.y = position.y + speed * vertical * Time.deltaTime;
+        if (!Mathf.Approximately(move.x, 0.0f) || !Mathf.Approximately(move.y, 0.0f))
+        {
+            lookDirection.Set(move.x, move.y);
+            lookDirection.Normalize();
+        }
+
+        playerAnim.SetFloat("Look X", lookDirection.x);
+        playerAnim.SetFloat("Look Y", lookDirection.y);
+        playerAnim.SetFloat("Speed", move.magnitude);
+
+        Vector2 position = transform.position; // makes a vector based on current position
+        position = position + move * speed * Time.deltaTime; //the position is equal to teh same position but a little bit bigger
+        
 
         //transform.position = position; //saves this position to the current one
         rubyRB2D.MovePosition(position);
