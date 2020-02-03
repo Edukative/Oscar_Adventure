@@ -14,6 +14,11 @@ public class EnemyController : MonoBehaviour
     public float changeTime = 3.0f;
 
     Animator anim;
+    
+    public Vector2[] localNodes;
+    int currentNode;
+    int nextNode;
+    Vector2 Velocity;
 
     // Start is called before the first frame update
     void Start()
@@ -21,12 +26,26 @@ public class EnemyController : MonoBehaviour
         rb2D = GetComponent<Rigidbody2D>(); //get teh enemy's RigidBody  
         timer = changeTime; //set teh timer
         anim = GetComponent<Animator>();
+
+        localNodes = new Vector2[transform.childCount];
+
+        for (int i = 0; i <= transform.childCount - 1; ++i)
+        {
+            Transform child = transform.GetChild(i).transform;
+            localNodes[i] = new Vector2(child.transform.position.x, child.transform.position.y);
+            Debug.Log("index " + i + "Transform" + localNodes[i]);
+
+        }
+
+        currentNode = 0;
+        nextNode = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        timer -= Time.deltaTime;
+
+        /*timer -= Time.deltaTime;
 
         if (timer < 0)
         {
@@ -35,6 +54,22 @@ public class EnemyController : MonoBehaviour
         }
 
         Vector2 position = rb2D.position; //get teh current position of teh enemy
+
+        */
+        Vector2 wayPointDirection = localNodes[nextNode] - rb2D.position;
+        float dist = speed * Time.deltaTime;
+
+
+        if (wayPointDirection.sqrMagnitude < dist * dist)
+        {
+            dist = wayPointDirection.magnitude;
+            currentNode = nextNode;
+            nextNode += 1;
+            if (nextNode >= localNodes.Length)
+            {
+                nextNode = 0;
+            }
+        }
 
         if (isVertical)
         {

@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before teh first frame update
     void Start()
     {
-        anim = GetComponent<Animator>();
+        playerAnim = GetComponent<Animator>();
         
 
         rubyRB2D = GetComponent<Rigidbody2D>(); //Get teh player's rigidbody
