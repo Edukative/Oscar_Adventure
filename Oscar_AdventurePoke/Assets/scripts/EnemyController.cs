@@ -57,6 +57,7 @@ public class EnemyController : MonoBehaviour
 
         */
         Vector2 wayPointDirection = localNodes[nextNode] - rb2D.position;
+        UpdateAnimations(wayPointDirection);
         float dist = speed * Time.deltaTime;
 
 
@@ -71,7 +72,12 @@ public class EnemyController : MonoBehaviour
             }
         }
 
-        if (isVertical)
+
+        Velocity = wayPointDirection.normalized * dist;
+
+        rb2D.MovePosition(rb2D.position + Velocity);
+
+       /*if (isVertical)
         {
             position.y = position.y + Time.deltaTime * speed * direction;
 
@@ -85,9 +91,15 @@ public class EnemyController : MonoBehaviour
             anim.SetFloat("Move Y", 0);
             anim.SetFloat("Move X", direction);
         }
-            
+            */
 
-        rb2D.MovePosition(position);
+        //rb2D.MovePosition(position);
+    }
+
+    void UpdateAnimations (Vector2 direction)
+    {
+        anim.SetFloat("Move X", direction.x);
+        anim.SetFloat("Move Y", direction.y);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
