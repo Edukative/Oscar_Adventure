@@ -7,7 +7,9 @@ public class EnemyController : MonoBehaviour
     public float speed; //speed of enemi
     Rigidbody2D rb2D;
     public bool isVertical;
-
+    //waypoint values
+    public GameObject wayPoints;
+    public Vector2[] localNodes;
     //timer values
     float timer;
     int direction = 1;
@@ -15,7 +17,7 @@ public class EnemyController : MonoBehaviour
 
     Animator anim;
     
-    public Vector2[] localNodes;
+   
     int currentNode;
     int nextNode;
     Vector2 Velocity;
@@ -27,11 +29,11 @@ public class EnemyController : MonoBehaviour
         timer = changeTime; //set teh timer
         anim = GetComponent<Animator>();
 
-        localNodes = new Vector2[transform.childCount];
+        localNodes = new Vector2[wayPoints.transform.childCount];
 
-        for (int i = 0; i <= transform.childCount - 1; ++i)
+        for (int i = 0; i <= wayPoints.transform.childCount - 1; ++i)
         {
-            Transform child = transform.GetChild(i).transform;
+            Transform child = wayPoints.transform.GetChild(i).transform;
             localNodes[i] = new Vector2(child.transform.position.x, child.transform.position.y);
             Debug.Log("index " + i + "Transform" + localNodes[i]);
 
@@ -54,7 +56,6 @@ public class EnemyController : MonoBehaviour
         }
 
         Vector2 position = rb2D.position; //get teh current position of teh enemy
-
         */
         Vector2 wayPointDirection = localNodes[nextNode] - rb2D.position;
         UpdateAnimations(wayPointDirection);
