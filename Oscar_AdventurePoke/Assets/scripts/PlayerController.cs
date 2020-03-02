@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
     // Animator values
     Animator playerAnim;
     Vector2 lookDirection = new Vector2(1, 0);
+    // projectiles value
+    public GameObject projectilePrefab;
+    public float projectileForce = 300;
     // Start is called before teh first frame update
     void Start()
     {
@@ -64,6 +67,11 @@ public class PlayerController : MonoBehaviour
 
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Launch();
+        }
     }
 
     public void ChangeHealth (int amount)
@@ -86,5 +94,17 @@ public class PlayerController : MonoBehaviour
 
         currentHealth = Mathf.Clamp(currentHealth * amount, 0, maxHealth); //limits teh number between 0 and max health
         Debug.Log(currentHealth + "/" + maxHealth); //is to see teh health
+
+        
+    }
+    void Launch()
+    {
+        GameObject projectileObject = Instantiate(projectilePrefab, rubyRB2D.position + Vector2.up * 0.5f, Quaternion.identity);
+
+        projectile projectile = projectileObject.GetComponent<projectile>();
+
+        projectile.Launch(lookDirection, projectileForce);
+
+        playerAnim.SetTrigger("Launch");
     }
 }

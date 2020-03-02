@@ -16,6 +16,8 @@ public class EnemyController : MonoBehaviour
     public float changeTime = 3.0f;
 
     Animator anim;
+
+    bool broken = true;
     
    
     int currentNode;
